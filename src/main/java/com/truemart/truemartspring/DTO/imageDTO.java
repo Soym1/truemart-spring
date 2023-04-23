@@ -4,7 +4,7 @@ public class imageDTO {
     private String imageName;
     private String imageType;
     private String imageContext;
-
+    private Long product;
     public imageDTO() {
     }
 
@@ -32,13 +32,16 @@ public class imageDTO {
         this.imageContext = imageContext;
     }
 
+    public Long getProduct() {
+        return product;
+    }
+
+    public void setProduct(Long product) {
+        this.product = product;
+    }
 
     @Override
     public String toString() {
-        return "imageDTO{" +
-                "imageName='" + imageName + '\'' +
-                ", imageType='" + imageType + '\'' +
-                ", imageContext='" + imageContext + '\'' +
-                '}';
+        return imageContext + "/" + product.toString() + "/" + imageName + imageType;
     }
 }

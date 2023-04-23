@@ -120,4 +120,5 @@ public class userDTO {
     public void setRole(List role) {
         this.role = role;
     }
+
 }

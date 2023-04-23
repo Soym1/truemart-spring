@@ -217,16 +217,15 @@
                                 <!-- product -->
                                 <div class="product" th:each="product : ${newProducts}">
                                     <div class="product-img new-product-img" style="height: 200px; margin-top: 10px">
-                                        <img th:src="${product.images.get(0).imageContext}"
+                                        <img th:src="${product.images.get(0).toString()}"
                                              alt="" style="max-height: 100%; position: absolute; bottom: 0; padding: 10px">
                                         <div class="product-label">
                                             <span class="new">NEW</span>
                                         </div>
                                     </div>
                                     <div class="product-body new-product-body">
-                                        <h3 class="product-name"><a
-                                                href="#" th:text="${product.productName}"></a></h3>
-                                        <h4 class="product-price" th:text="${product.productBeginPrice + 'VNĐ'}" style="margin: 10px"></h4>
+                                        <h3 class="product-name"><a th:href="@{/product-detail/{productId}(productId=${product.productID})}" th:text="${product.productName}"></a></h3>
+                                        <h4 class="product-price" th:text="${product.productBeginPrice}" style="margin: 10px"></h4>
                                         <div class="product-rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
@@ -353,7 +352,9 @@
                                     <div class="product-body new-product-body">
                                         <h3 class="product-name"><a
                                                 href="#" th:text="${product.productName}"></a></h3>
-                                        <h4 class="product-price" th:text="${product.productBeginPrice + 'VNĐ'}" style="margin: 10px"></h4>
+                                        <h4 th:classappend="product-price" th:text="${product.productDiscountPrice + 'VNĐ'}">
+                                            <del th:classappend="product-old-price" th:text="${product.productBeginPrice + 'VNĐ'}"></del>
+                                        </h4>
                                         <div class="product-rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>

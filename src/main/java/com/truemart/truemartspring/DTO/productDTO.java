@@ -1,6 +1,9 @@
 package com.truemart.truemartspring.DTO;
 
+import java.nio.DoubleBuffer;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -12,12 +15,15 @@ public class productDTO {
     private Integer categoryID;
     private String productDescription;
     private String  productBeginPrice;
-    private Double productDiscountPrice;
+    private String productDiscountPrice;
     private String productDateCreation;
     private Long quantity;
     private List<imageDTO> images;
     private List<productDetailDTO> productDetails;
     private categoryDTO category;
+    private List<reviewDTO> review;
+    private Double ratingAvg;
+
     public productDTO() {
     }
 
@@ -58,18 +64,21 @@ public class productDTO {
     }
 
     public void setProductBeginPrice(Double productBeginPrice) {
-        Locale locale = new Locale("vi", "VN");
+        Locale locale = new Locale.Builder().setLanguage("vi").setRegion("VN").build();
         NumberFormat formatter = NumberFormat.getCurrencyInstance(locale);
-        String currency = formatter.format(productBeginPrice).replace("₫","");
+        String currency = formatter.format(productBeginPrice).replace("₫","VNĐ");
         this.productBeginPrice = currency;
     }
 
-    public Double getProductDiscountPrice() {
+    public String getProductDiscountPrice() {
         return productDiscountPrice;
     }
 
     public void setProductDiscountPrice(Double productDiscountPrice) {
-        this.productDiscountPrice = productDiscountPrice;
+        Locale locale = new Locale.Builder().setLanguage("vi").setRegion("VN").build();
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(locale);
+        String currency = formatter.format(productDiscountPrice).replace("₫","VNĐ");
+        this.productDiscountPrice = currency;
     }
 
     public String getProductDateCreation() {
@@ -119,5 +128,52 @@ public class productDTO {
 
     public void setCategory(categoryDTO category) {
         this.category = category;
+    }
+
+    public List<reviewDTO> getReview() {
+        return review;
+    }
+
+    public void setReview(List<reviewDTO> review) {
+        Double avg = 0D;
+        Double sum = 0D;
+        for (reviewDTO reviewDTO : review){
+            sum += reviewDTO.getRating();
+        }
+        avg = review.size() == 0 ? 3.5 : sum / review.size();
+        double roundedA = Math.round(avg * 100.0) / 100.0;
+        setRatingAvg(roundedA);
+        this.review = review;
+    }
+
+    public Double getRatingAvg() {
+        return ratingAvg;
+    }
+
+    public void setRatingAvg(Double ratingAvg) {
+        this.ratingAvg = ratingAvg;
+    }
+
+    @Override
+    public String toString() {
+        String reviewString = "";
+        for(reviewDTO re : review){
+            reviewString += re.toString();
+        }
+        return "productDTO{" +
+                "productID=" + productID +
+                ", productName='" + productName + '\'' +
+                ", shopID=" + shopID +
+                ", categoryID=" + categoryID +
+                ", productDescription='" + productDescription + '\'' +
+                ", productBeginPrice='" + productBeginPrice + '\'' +
+                ", productDiscountPrice='" + productDiscountPrice + '\'' +
+                ", productDateCreation='" + productDateCreation + '\'' +
+                ", quantity=" + quantity +
+                ", images=" + images +
+                ", productDetails=" + productDetails +
+                ", category=" + category +
+                ", review=" + reviewString +
+                '}';
     }
 }

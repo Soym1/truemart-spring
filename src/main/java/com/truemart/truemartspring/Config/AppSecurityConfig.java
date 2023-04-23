@@ -25,14 +25,14 @@ public class AppSecurityConfig {
     synchronized public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/","/login","/templates/**","/chat/**").permitAll()
+                .requestMatchers("/","/login","/templates/**","/chat/**","/product-detail/**","/review/**").permitAll()
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/shop/**").authenticated()
 //                .and().formLogin()
                 .and().formLogin().loginPage("/login").usernameParameter("email").passwordParameter("password")
-                .defaultSuccessUrl("/",true)
-                .failureUrl("/login?error")
+                .defaultSuccessUrl("/#",true)
+                .and().requestCache()
                 .and().build();
     }
     @Bean

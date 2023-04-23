@@ -1,0 +1,311 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<header th:replace="~{header :: header}"></header>
+<style>
+    .slick-list.draggable {
+        height: 500px !important;
+    }
+
+</style>
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/shop">Shop</a></li>
+                    <li>
+                        <a href="/" th:text="${productDetail.category.category}"></a>
+                    </li>
+                    <li>
+                        <a href="" th:text="${productDetail.productName}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- Product main img -->
+            <div class="col-md-5 col-md-push-2">
+                <div id="product-main-img">
+                    <div th:each="image : ${productDetail.images}">
+                        <div class="product-preview focus-preview">
+                            <img th:src="${image.toString()}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Product main img -->
+
+            <!-- Product thumb imgs -->
+            <div class="col-md-2  col-md-pull-5">
+                <div id="product-imgs">
+                    <div th:each="image : ${productDetail.images}">
+                        <div class="product-preview vertical-preview">
+                            <img th:src="${image.toString()}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Product thumb imgs -->
+
+            <!-- Product details -->
+            <div class="col-md-5">
+                <div class="product-details">
+                    <h2 th:classappend="product-name" th:text="${productDetail.productName}"></h2>
+                    <div>
+                        <div class="product-rating">
+                            <c:forEach begin="1" end="${trungbinh}">
+                                <i class="fa fa-star"></i>
+                            </c:forEach>
+                            <c:forEach begin="${trungbinh + 1}" end="5">
+                                <i class="fa fa-star-o empty"></i>
+                            </c:forEach>
+                        </div>
+                        <a class="review-link" href="#">10 Review(s) | Add your review</a>
+                    </div>
+                    <div style="display:flex;">
+                        <h3 class="product-price">
+                            <div th:text="${productDetail.productDiscountPrice}"></div>
+                            <del class="product-old-price">
+                                <div th:text="${productDetail.productBeginPrice}" th:remove="tag"></div>
+                            </del>
+                        </h3>
+                        <div th:if="${productDetail.quantity == 0}" th:remove="tag">
+                            <span class="product-available">Sold Out</span>
+                        </div>
+                        <div th:if="${productDetail.quantity != 0}" th:remove="tag">
+                            <span class="product-available">In Stock</span>
+                        </div>
+                    </div>
+
+                    <div class="add-to-cart">
+                        <div th:if="${productDetail.quantity == 0}" th:remove="tag">
+                            <div class="qty-label">
+                                <p>Quantity</p>
+                                <div class="input-number">
+                                    <input type="number" value="1" style="background: #eeeeee; pointer-events: none;">
+                                    <span class="qty-up qty-up-1"
+                                          style="background: #eeeeee; pointer-events: none;">+</span>
+                                    <span class="qty-down qty-down-1"
+                                          style="background: #eeeeee; pointer-events: none;">-</span>
+                                </div>
+                            </div>
+                            <button class="add-to-cart-btn ${product.id}"
+                                    style="background: #eeeeee; color: black; pointer-events: none;">
+                                <i class="fa fa-shopping-cart"></i> add to cart
+                            </button>
+                        </div>
+                        <div th:if="${productDetail.quantity > 0}" th:remove="tag">
+                            <div class="qty-label">
+                                <p>Quantity</p>
+                                <div class="input-number">
+                                    <input type="number" value="1" th:attr="max=${productDetail.quantity}">
+                                    <span class="qty-up qty-up-1">+</span>
+                                    <span class="qty-down qty-down-1">-</span>
+                                </div>
+                            </div>
+                            <button class="add-to-cart-btn ${product.id}">
+                                <i class="fa fa-shopping-cart"></i> add to cart
+                            </button>
+                        </div>
+                    </div>
+
+                    <ul class="product-links">
+                        <li>Share:</li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <!-- /Product details -->
+
+            <!-- Product tab -->
+            <div class="col-md-12">
+                <div id="product-tab">
+                    <!-- product tab nav -->
+                    <ul class="tab-nav">
+                        <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
+                        <li><a data-toggle="tab" href="#tab2">Details</a></li>
+                        <li><a data-toggle="tab" href="#tab3">Reviews</a></li>
+                    </ul>
+                    <!-- /product tab nav -->
+
+                    <!-- product tab content -->
+                    <div class="tab-content">
+                        <!-- tab1  -->
+                        <div id="tab1" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p style="white-space: pre-line" th:text="${productDetail.productDescription}"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /tab1  -->
+
+                        <!-- tab2  -->
+                        <div id="tab2" class="tab-pane fade in" style="display: flex;">
+                            <!--                            <div class="row">-->
+                            <div th:each="productDetail : ${productDetail.productDetails}" th:remove="tag">
+                                <div th:utext="${'<div class=&quot;col-md-12&quot;>'}" th:remove="tag"
+                                     th:if="${productDetailStat.index % 5 == 0}"></div>
+                                <div>
+                                    <p style="white-space: pre-line; display: inline-block; font-weight: bold"
+                                       th:text="${productDetail.tag + '   :   '}"></p>
+                                    <p style="white-space: pre-line; display: inline"
+                                       th:text="${productDetail.context}"></p>
+                                </div>
+                                <div th:utext="${'</div>'}" th:remove="tag"
+                                     th:if="${(productDetailStat.index % 5 == 4) || (productDetailStat.index  == productDetailStat.size-1)}"></div>
+                            </div>
+                        </div>
+
+                        <!-- /tab2  -->
+
+                        <!-- tab3  -->
+                        <div id="tab3" class="tab-pane fade in" style="display: flex; flex-direction: column">
+                            <!--                            <div class="row">-->
+                            <!-- Rating -->
+                            <div class="col-md-12">
+                                <div id="rating" style="transform: translateX(40%); margin-bottom: 5rem">
+                                    <div class="rating-avg">
+                                        <span th:text="${productDetail.ratingAvg}"></span>
+                                        <div class="rating-stars">
+                                            <div th:each="i : ${#numbers.sequence(1, 5)}" th:remove="tag">
+                                                <i class="fa fa-star" th:if="${i < productDetail.ratingAvg}"></i>
+                                                <i class="fa fa-star-o empty"
+                                                   th:if="${i > productDetail.ratingAvg }"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- /Rating -->
+                            <div style="display: flex; max-height: 500px">
+                                <div class="col-md-3"></div>
+                                <!-- Reviews -->
+                                <div class="col-md-6">
+                                    <div id="reviews">
+                                        <ul class="reviews" style="height: 100%; overflow-y: auto;">
+                                            <div th:each="review : ${productDetail.review}" th:remove="tag">
+                                                <li>
+                                                    <div class="review-heading">
+                                                        <h5 class="name">
+                                                            <div th:text="${review.userName}" th:remove="tag"></div>
+                                                        </h5>
+                                                        <p class="date" th:text="${review.postDate}"></p>
+                                                        <div class="review-rating">
+                                                            <div th:each="i : ${#numbers.sequence(1, 5)}"
+                                                                 th:remove="tag">
+                                                                <i class="fa fa-star"
+                                                                   th:if="${i < review.rating}"></i>
+                                                                <i class="fa fa-star-o empty"
+                                                                   th:if="${i >= review.rating}"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="review-body">
+                                                        <p th:text="${review.content}"></p>
+                                                    </div>
+                                                </li>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /Reviews -->
+
+                                <!-- Review Form -->
+                                <div class="col-md-3">
+                                    <div id="review-form">
+                                            <form class="review-form" style="display: flex; flex-direction: column">
+                                                <textarea name="txt-content" class="input" id="review"
+                                                          placeholder="Your Review"></textarea>
+                                                <div name="txt-rating" class="input-rating">
+                                                    <span>Your Rating: </span>
+                                                    <div class="stars">
+                                                        <input id="star5" name="rating" value="5" type="radio"
+                                                               class="rating"><label
+                                                            for="star5"></label>
+                                                        <input id="star4" name="rating" value="4" type="radio"
+                                                               class="rating"><label
+                                                            for="star4"></label>
+                                                        <input id="star3" name="rating" value="3" type="radio"
+                                                               class="rating"><label
+                                                            for="star3"></label>
+                                                        <input id="star2" name="rating" value="2" type="radio"
+                                                               class="rating"><label
+                                                            for="star2"></label>
+                                                        <input id="star1" name="rating" value="1" type="radio"
+                                                               class="rating"><label
+                                                            for="star1"></label>
+                                                    </div>
+                                                </div>
+                                                <a class="btn btn-primary primary-btn" href="javascript:void(0)"
+                                                   role="button" onclick="getComment()">Submit</a>
+                                            </form>
+                                    </div>
+                                    <!--                                </div>-->
+                                    <!-- /Review Form -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /tab3  -->
+                    </div>
+                    <!-- /product tab content  -->
+                </div>
+            </div>
+            <!-- /product tab -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+
+<!-- /Section -->
+</div>
+<footer th:replace="~{footer :: footer}"></footer>
+</html>
+<script type="text/javascript">
+    function getComment() {
+        if ($(".user a div").text() === ''){
+            alert("De nghi dang nhap");
+        } else {
+            var review = $("#review").val();
+            var rating = $(".rating").filter(':checked').val();
+            alert("chay vao ne")
+            $.ajax({
+                url: 'http://localhost:8081/review',
+                type: 'POST',
+                cache: false,
+                data: {
+                    content: review,
+                    rating: rating
+                },
+                success: function (data) {
+                    $(".reviews").html(data);
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra');
+                }
+            });
+        }
+    }
+</script>

@@ -14,7 +14,7 @@ public class productEntity {
     private Long id;
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, columnDefinition = "LONGTEXT")
     private String description;
     @Column(name = "begin_price", nullable = false)
     private Double beginPrice;
@@ -30,6 +30,10 @@ public class productEntity {
 
     @OneToMany(mappedBy = "product")
     private List<productDetailEntity> productDetails = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    @OrderBy("id DESC ")
+    private List<reviewEntity> reviewEntities = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "shop_id", nullable = false)
@@ -127,6 +131,13 @@ public class productEntity {
         this.category = category;
     }
 
+    public List<reviewEntity> getReviewEntities() {
+        return reviewEntities;
+    }
+
+    public void setReviewEntities(List<reviewEntity> reviewEntities) {
+        this.reviewEntities = reviewEntities;
+    }
 
     @Override
     public String toString() {

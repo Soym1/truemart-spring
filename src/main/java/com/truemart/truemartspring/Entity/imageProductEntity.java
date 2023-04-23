@@ -41,8 +41,8 @@ public class imageProductEntity {
         this.type = type;
     }
 
-    public productEntity getProduct() {
-        return product;
+    public Long getProduct() {
+        return product.getId();
     }
 
     public void setProduct(productEntity product) {

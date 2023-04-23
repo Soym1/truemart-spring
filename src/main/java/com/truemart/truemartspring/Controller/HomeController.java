@@ -14,33 +14,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
-@Controller
+@RestController
 public class HomeController {
     @Autowired
     ProductService productService;
     //  Get data for Homepage
     @GetMapping("/")
-    public String loadHomePage(Model model){
+    public ModelAndView loadHomePage(Model model){
+        Map<String,Object> modelMap = new HashMap<>();
         List<productDTO> list = productService.getProductsByCategoryAndPos(null,"new");
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("newProducts", list);
-        if (username != "anonymousUser"){
-            model.addAttribute("authen",true);
-            model.addAttribute("username",username);
-        } else
-        {
-            model.addAttribute("authen", false);
-        }
-        return "index";
+        modelMap.put("newProducts", list);
+//        model.addAttribute("newProducts", list);
+        return new ModelAndView("index",modelMap);
     }
 //    public String getProductsByCategoryAndPos(@RequestParam(value = "category", required = false) String category,
 //                                              @RequestParam(value = "pos",required = false) String pos,

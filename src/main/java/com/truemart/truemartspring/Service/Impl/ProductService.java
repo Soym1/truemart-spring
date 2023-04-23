@@ -11,17 +11,20 @@ import com.truemart.truemartspring.DTO.productDetailDTO;
 import com.truemart.truemartspring.Entity.imageProductEntity;
 import com.truemart.truemartspring.Entity.productDetailEntity;
 import com.truemart.truemartspring.Entity.productEntity;
+import com.truemart.truemartspring.Entity.reviewEntity;
 import com.truemart.truemartspring.Repository.*;
 import com.truemart.truemartspring.Service.IProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -47,10 +50,13 @@ public class ProductService implements IProductService {
 
     @Override
     public productDTO getProductByID(Long id) {
-        productEntity productEntity = productRepository.findById(id).get();
-        productDTO productDTO = modelMapper.map(productEntity, productDTO.class);
-        System.out.println(productDTO.getProductDateCreation());
-        return productDTO;
+        Optional<productEntity> productEntityOptional = productRepository.findById(id);
+        if (productEntityOptional.isPresent()){
+            productEntity productEntity = productEntityOptional.get();
+            productDTO productDTO = modelMapper.map(productEntity, productDTO.class);
+            return productDTO;
+        }
+        throw new UsernameNotFoundException("Khong tim thay san pham");
     }
 
     @Override
