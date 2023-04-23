@@ -207,7 +207,7 @@
                                                 <li>
                                                     <div class="review-heading">
                                                         <h5 class="name">
-                                                            <div th:text="${review.userName}" th:remove="tag"></div>
+                                                            <div th:text="${review.name}" th:remove="tag"></div>
                                                         </h5>
                                                         <p class="date" th:text="${review.postDate}"></p>
                                                         <div class="review-rating">
@@ -285,22 +285,31 @@
 </html>
 <script type="text/javascript">
     function getComment() {
-        if ($(".user a div").text() === ''){
+        var username = $(".user a div").text();
+        if ( username === 'sdf'){
             alert("De nghi dang nhap");
         } else {
             var review = $("#review").val();
             var rating = $(".rating").filter(':checked').val();
-            alert("chay vao ne")
+            var productID = window.location.href.split("/").at(-1);
+            let date = new Date().toJSON();
+            let url = window.location.origin + "/review";
             $.ajax({
-                url: 'http://localhost:8081/review',
+                url: url,
                 type: 'POST',
                 cache: false,
-                data: {
-                    content: review,
-                    rating: rating
-                },
-                success: function (data) {
-                    $(".reviews").html(data);
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({
+                    "username":  username,
+                    "productID": productID,
+                    "content": review,
+                    "rating": rating,
+                    "postDate": date
+                }),
+                success: function () {
+                    $("#reviews").load(window.location.href + " #reviews");
+                    $("#review-form").load(window.location.href + " #review-form");
                 },
                 error: function () {
                     alert('Có lỗi xảy ra');

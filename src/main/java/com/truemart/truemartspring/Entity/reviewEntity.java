@@ -10,12 +10,12 @@ public class reviewEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(targetEntity = userEntity.class)
+    @JoinColumn(name = "user_id")
     private userEntity user;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @ManyToOne(targetEntity = productEntity.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", insertable = false, updatable = false)
     private productEntity product;
 
     @Column(name = "content", nullable = false)
@@ -26,6 +26,14 @@ public class reviewEntity {
     @Column(name="post_date", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date postDate;
+    @Column(name="product_id", nullable = false)
+    private Long productID;
+
+    private String username;
+    private String name;
+    private String email;
+    public reviewEntity() {
+    }
 
     public Long getId() {
         return id;
@@ -38,6 +46,15 @@ public class reviewEntity {
     public void setUser(userEntity user) {
         this.user = user;
     }
+
+    public Long getProductID() {
+        return productID;
+    }
+
+    public void setProductID(Long productID) {
+        this.productID = productID;
+    }
+
 
     public String getContent() {
         return content;
@@ -61,5 +78,42 @@ public class reviewEntity {
 
     public void setPostDate(Date postDate) {
         this.postDate = postDate;
+    }
+
+    public String getUsername() {
+        return user.getUsername();
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getName() {
+        return user.getName();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return user.getEmail();
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "reviewEntity{" +
+                "id=" + id +
+                ", user=" + user +
+                ", product=" + product +
+                ", content='" + content + '\'' +
+                ", rating=" + rating +
+                ", postDate=" + postDate +
+                ", productID=" + productID +
+                '}';
     }
 }

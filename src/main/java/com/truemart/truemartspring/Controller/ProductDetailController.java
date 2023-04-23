@@ -3,6 +3,7 @@ package com.truemart.truemartspring.Controller;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.truemart.truemartspring.DTO.productDTO;
 import com.truemart.truemartspring.DTO.reviewDTO;
+import com.truemart.truemartspring.Service.Impl.ProductDetailService;
 import com.truemart.truemartspring.Service.Impl.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -18,7 +19,8 @@ import java.util.Map;
 public class ProductDetailController {
     @Autowired
     ProductService productService;
-
+    @Autowired
+    ProductDetailService productDetailService;
     @GetMapping("/product-detail/{id}")
     public ModelAndView getProductByID(@PathVariable Long id){
         Map<String,Object> modelMap = new HashMap<>();
@@ -33,9 +35,8 @@ public class ProductDetailController {
 //    }
 
     @PostMapping("/review")
-    public String addNewReview(){
-        System.out.println("Co chay vao");
-        return "Success";
+    public reviewDTO addNewReview(@RequestBody reviewDTO reviewDTO){
+        return productDetailService.addNewProductReview(reviewDTO);
     }
 
 }

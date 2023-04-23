@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class reviewDTO {
     private Long id;
-    private String userName;
-    private String userEmail;
-    private String userUsername;
-    private productDTO product;
+    private String name;
+    private String email;
+    private String username;
+    private Long productID;
     private String content;
     private String postDate;
     private Integer rating;
@@ -20,36 +20,36 @@ public class reviewDTO {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public String getUserUsername() {
-        return userUsername;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setUserUsername(String userUsername) {
-        this.userUsername = userUsername;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public productDTO getProduct() {
-        return product;
+    public Long getProductID() {
+        return productID;
     }
 
-    public void setProduct(productDTO product) {
-        this.product = product;
+    public void setProductID(Long productID) {
+        this.productID = productID;
     }
 
     public String getContent() {
@@ -74,16 +74,5 @@ public class reviewDTO {
 
     public void setRating(Integer rating) {
         this.rating = rating;
-    }
-
-    @Override
-    public String toString() {
-        return "reviewDTO{" +
-                "id=" + id +
-                ", product=" + product +
-                ", content='" + content + '\'' +
-                ", postDate=" + postDate +
-                ", rating=" + rating +
-                '}';
     }
 }
